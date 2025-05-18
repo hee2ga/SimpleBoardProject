@@ -8,9 +8,9 @@ public class Board implements Serializable {
 	private String title;
 	private String content;
 	private String writer;
-	private Date date;
+	private String date;
 	
-	public Board(int bno, String title, String content, String writer, Date date) {
+	public Board(int bno, String title, String content, String writer, String date) {
 		this.bno = bno;
 		this.title = title;
 		this.content = content;
@@ -50,13 +50,14 @@ public class Board implements Serializable {
 		this.writer = writer;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
+	
 
 }

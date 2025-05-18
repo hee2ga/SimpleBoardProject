@@ -13,13 +13,14 @@ import java.util.List;
 
 public class BoardService {
 	private List<Board>list=new ArrayList<Board>();
-	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd a HH:mm");
+	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private int nextId = 1;
 	
 	// 글 작성하기
 	public void registerBoard(String title, String content,String writer) {
-		list.add(new Board(nextId++, title, content, writer, new Date()));
-		System.out.println("게시글을 작성완료했습니다.");
+		Date now=new Date();
+		list.add(new Board(nextId++, title, content, writer, sdf.format(now)));
+		System.out.println("\n게시글을 작성완료했습니다 😊");
 	}
 	
 	// 목록 보기

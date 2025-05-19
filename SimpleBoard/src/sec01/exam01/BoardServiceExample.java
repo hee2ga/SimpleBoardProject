@@ -10,9 +10,9 @@ public class BoardServiceExample {
 		boolean run=true;
 		
 		while(run) {
-			System.out.println("-----------------------------------------------------------------------------");
+			System.out.println("--------------------------------------------------------------------------------------------");
 			System.out.println("1. 글작성 | 2. 목록보기 | 3. 상세보기 | 4. 수정하기 | 5. 삭제하기 | 6. 파일저장 | 7. 종료");
-			System.out.println("-----------------------------------------------------------------------------");
+			System.out.println("--------------------------------------------------------------------------------------------");
 			
 			System.out.print("선택 > ");
 			String selectNo=scanner.nextLine();
@@ -48,7 +48,7 @@ public class BoardServiceExample {
 					
 					String writer="";
 					while(writer.isBlank() || !writer.matches("^[가-힣a-zA-Z0-9]{2,10}$")) { // 닉네임 유효성검사
-						System.out.print("글쓴이 : ");
+						System.out.print("닉네임 : ");
 						writer=scanner.nextLine().trim(); 
 						
 						if(writer.isBlank()) { // 닉네임 공백검사
@@ -63,7 +63,6 @@ public class BoardServiceExample {
 					break;
 					
 				case "2":
-					System.out.println("[글 목록]");
 					boardService.showList();
 					break;
 					

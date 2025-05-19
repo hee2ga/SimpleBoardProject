@@ -25,14 +25,36 @@ public class BoardService {
 	
 	// 목록 보기
 	public void showList() {
-		if(list.isEmpty()) {
-			System.out.println("게시글이 없습니다.");
-			return;
-		}
-		System.out.println("[게시글 목록]");
-		for(Board board:list) {
-			System.out.printf(" %d | %s | %s | %s | %s ",board.getBno(),board.getTitle(),board.getContent(),board.getWriter(),board.getDate());
-		}
+	    if (list.isEmpty()) {
+	        System.out.println("게시글이 없습니다.");
+	        return;
+	    }
+
+	    System.out.println("[게시글 목록]");
+	    
+	    // 행 제목 출력
+	    System.out.printf("%-6s | %-20s | %-30s | %-10s | %-20s\n",
+	                      "글번호", "제목", "내용", "닉네임", "일시");
+	    System.out.println("--------------------------------------------------------------------------------------------");
+	    // 각 게시글 정보 출력
+	    for (Board board : list) {
+	        System.out.printf("%-6d | %-20s | %-30s | %-10s | %-20s\n",
+	                          board.getBno(),
+	                          cutString(board.getTitle(), 6),
+	                          cutString(board.getContent(), 10),
+	                          board.getWriter(),
+	                          board.getDate());
+	    }
+	    System.out.println();
+	}
+
+	// 말줄임표 메소드
+	private String cutString(String str, int maxLength) {
+	    if (str.length() > maxLength) {
+	        return str.substring(0, maxLength - 3) + "...";
+	    } else {
+	        return str;
+	    }
 	}
 	
 	// 글번호 찾기
@@ -53,7 +75,7 @@ public class BoardService {
 		System.out.println("번호 : "+board.getBno());
 		System.out.println("제목 : "+board.getTitle());
 		System.out.println("내용 : "+board.getContent());
-		System.out.println("글쓴이 : "+board.getWriter());
+		System.out.println("닉네임 : "+board.getWriter());
 		System.out.println("날짜 : "+board.getDate());
 	}
 	
@@ -100,7 +122,7 @@ public class BoardService {
 			ObjectInputStream ois=new ObjectInputStream(fis);
 			list=(List<Board>)ois.readObject();
 			for(Board board:list) {
-				nextId=Math.max(nextId,board.getBno()+1);
+				nextId=Math.max(nextId,board.getBno()+1); // 다음에 쓸 글번호 설정(글번호 중복X)
 			}
 			System.out.println("파일 불러오기 완료되었습니다.");
 		}catch(FileNotFoundException e) {

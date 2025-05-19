@@ -10,6 +10,7 @@ public class BoardServiceExample {
 		BoardService boardService=new BoardService();
 		boardService.loadFromFile();
 		boolean run=true;
+		CheckField checkField=new CheckField();
 		
 		while(run) {
 			System.out.println("--------------------------------------------------------------------------------------------");
@@ -23,86 +24,68 @@ public class BoardServiceExample {
 				case "1":
 					System.out.println("[글작성]");
 					String title="";
-					while(title.isBlank()||title.length()>20) { // 제목 유효성 감사
+					while(true) {
 						System.out.print("제목 : ");
-						title=scanner.nextLine().trim(); 
+						title=scanner.nextLine().trim();
 						
-						if(title.isBlank()) { // 제목 공백 검사
-							System.out.println("⚠️제목을 입력해주세요.");
-						}
-						if(title.length()>20) { // 제목 글자수 검사
-							System.out.println("⚠️제목은 최대 20자까지 입력할 수 있습니다.");
-						}
+						String error=checkField.checkTitle(title);
+						if(error==null) break;// 유효성 통과
+						System.out.println(error);
 					}
 					
 					String content="";
-					while(content.isBlank()||content.length()>200) { // 내용 유효성 검사
+					while(true) { // 내용 유효성 검사
 						System.out.print("내용 : ");
 						content=scanner.nextLine().trim(); 
 						
-						if(content.isBlank()) { // 내용 공백 검사
-							System.out.println("⚠️내용을 입력해주세요.");
-						}
-						if(content.length()>200) { // 내용 글자수 검사
-							System.out.println("⚠️내용은 최대 200자까지 입력할 수 있습니다.");
-						}
+						String error=checkField.checkContent(content);
+						if(error==null) break;
+						System.out.println(error);
 					}
 					
 					String writer="";
-					Set<String> nicknameSet=boardService.inputNickname(); // 저장된 닉네임 세트
 					
 					 while (true) {
 				            System.out.print("닉네임 : ");
 				            writer = scanner.nextLine().trim();
 
-				            if (writer.isBlank()) { // 닉네임 공백검사
-				                System.out.println("⚠️ 닉네임을 입력해주세요.");
-				            } else if (!writer.matches("^[가-힣a-zA-Z0-9]{2,10}$")) { // 닉네임 유효성 검사
-				                System.out.println("⚠️ 닉네임은 한글, 영어, 숫자만 사용하며 2~10자여야 합니다.");
-				            } else if (nicknameSet.contains(writer)) { // 닉네임 중복검사
-				                System.out.println("⚠️ 이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-				            } else {
-				                break;
-				            }
+				            String error=checkField.checkWriter(writer);
+				            if(error==null) break;
+				            System.out.println(error);
+				            
 				        }
-
-				        System.out.println("사용 가능한 닉네임입니다: " + writer);
 				    
 					// 글 작성시 패스워드 입력
-					String password="";
-					while(true) {
-						System.out.print("패스워드 입력 : ");
-						password=scanner.nextLine().trim();
-						
-						int length=password.length();
-						
-						if(password.isBlank()) {
-							System.out.println("⚠️패스워드를 입력해주세요.");
-						}else if(length<4) {
-							System.out.println("⚠️ 패스워드는 최소 4자 이상 입력하셔야 합니다.");
-						}else if(length>10) {
-							System.out.println("⚠️ 패스워드는 최대 10자까지 입력할 수 있습니다.");
-						}else { // 유효한 패스워드일 경우
-							break;
-						}
-					}
-					
-					// 글 작성시 패스워드 확인
+					String password1="";
 					String password2="";
 					while(true) {
-						System.out.print("패스워드 확인 : ");
-						password2=scanner.nextLine().trim();
+						System.out.print("패스워드 입력 : ");
+						password1=scanner.nextLine().trim();
 						
-						if(password2.equals(password)) {
-							break;
+						String error1=checkField.checkPass(password1);
+						
+						if(error1!=null) {
+							System.out.println(error1);
+							continue;
 						}
 						
-						System.out.println("패스워드를 다시 입력해주세요");
-						System.out.print("패스워드 입력 : ");
-						password=scanner.nextLine().trim();
+						// 패스워드 확인
+					    System.out.print("패스워드 확인 : ");
+					    password2 = scanner.nextLine().trim();
+
+					    String error2 = checkField.checkPassTopass(password1, password2);
+					    if (error2 != null) {
+					        System.out.println(error2);
+					        continue; // 두 비밀번호가 다르면 다시 입력
+					    }
+					    
+
+					    break; // 모든 조건 통과 루프 종료
 					}
 					
-					boardService.registerBoard(title, content, writer,password);
+				
+					
+					boardService.registerBoard(title, content, writer,password1);
 					break;
 					
 				case "2":
@@ -117,11 +100,15 @@ public class BoardServiceExample {
 				case "4":
 					System.out.print("수정하실 글 번호를 입력해주세요.");
 					int updateBno=Integer.parseInt(scanner.nextLine());
+					System.out.print("닉네임을 입력해주세요");
+					String updateWriter=scanner.nextLine();
+					System.out.print("비밀번호를 입력해주세요.");
+					String updatePassword=scanner.nextLine();
 					System.out.print("수정하실 제목을 입력해주세요.");
 					String updateTitle=scanner.nextLine();
 					System.out.println("수정하실 내용을 입력해주세요.");
 					String updateContent=scanner.nextLine();
-					boardService.updateBoard(updateBno, updateTitle, updateContent);
+					boardService.updateBoard(updateBno,updateWriter,updatePassword, updateTitle, updateContent);
 					break;
 				case "5":
 					System.out.print("삭제하실 글 번호를 입력해주세요.");

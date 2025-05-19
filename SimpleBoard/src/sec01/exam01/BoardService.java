@@ -17,9 +17,9 @@ public class BoardService {
 	private int nextId = 1;
 	
 	// 글 작성하기
-	public void registerBoard(String title, String content,String writer) {
+	public void registerBoard(String title, String content,String writer,String password) {
 		Date now=new Date();
-		list.add(new Board(nextId++, title, content, writer, sdf.format(now)));
+		list.add(new Board(nextId++, title, content, writer, sdf.format(now),password));
 		System.out.println("\n게시글을 작성완료했습니다 😊");
 	}
 	
@@ -31,12 +31,10 @@ public class BoardService {
 	    }
 
 	    System.out.println("[게시글 목록]");
-	    
-	    // 행 제목 출력
 	    System.out.printf("%-6s | %-20s | %-30s | %-10s | %-20s\n",
 	                      "글번호", "제목", "내용", "닉네임", "일시");
 	    System.out.println("--------------------------------------------------------------------------------------------");
-	    // 각 게시글 정보 출력
+	    
 	    for (Board board : list) {
 	        System.out.printf("%-6d | %-20s | %-30s | %-10s | %-20s\n",
 	                          board.getBno(),

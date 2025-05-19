@@ -9,13 +9,15 @@ public class Board implements Serializable {
 	private String content;
 	private String writer;
 	private String date;
+	private String password;
 	
-	public Board(int bno, String title, String content, String writer, String date) {
+	public Board(int bno, String title, String content, String writer, String date,String password) {
 		this.bno = bno;
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.date = date;
+		this.password=password;
 	}
 
 	public int getBno() {
@@ -58,6 +60,14 @@ public class Board implements Serializable {
 		this.date = date;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	
 
 }

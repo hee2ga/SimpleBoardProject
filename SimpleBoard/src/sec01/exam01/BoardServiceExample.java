@@ -26,10 +26,10 @@ public class BoardServiceExample {
 						title=scanner.nextLine().trim(); 
 						
 						if(title.isBlank()) { // 제목 공백 검사
-							System.out.println("제목을 입력해주세요.");
+							System.out.println("⚠️제목을 입력해주세요.");
 						}
 						if(title.length()>20) { // 제목 글자수 검사
-							System.out.println("제목은 최대 20자까지 입력할 수 있습니다.");
+							System.out.println("⚠️제목은 최대 20자까지 입력할 수 있습니다.");
 						}
 					}
 					
@@ -39,10 +39,10 @@ public class BoardServiceExample {
 						content=scanner.nextLine().trim(); 
 						
 						if(content.isBlank()) { // 내용 공백 검사
-							System.out.println("내용을 입력해주세요.");
+							System.out.println("⚠️내용을 입력해주세요.");
 						}
 						if(content.length()>200) { // 내용 글자수 검사
-							System.out.println("내용은 최대 200자까지 입력할 수 있습니다.");
+							System.out.println("⚠️내용은 최대 200자까지 입력할 수 있습니다.");
 						}
 					}
 					
@@ -52,14 +52,47 @@ public class BoardServiceExample {
 						writer=scanner.nextLine().trim(); 
 						
 						if(writer.isBlank()) { // 닉네임 공백검사
-							System.out.println("닉네임을 입력해주세요.");
+							System.out.println("⚠️닉네임을 입력해주세요.");
 						}
 						if(!writer.matches("^[가-힣a-zA-Z0-9]{2,10}$")) { // 한글 영어 숫자 허용(2~10자)
-							System.out.println("닉네임은 한글, 영어, 숫자만 사용하며 2~10자여야 합니다.");
+							System.out.println("⚠️닉네임은 한글, 영어, 숫자만 사용하며 2~10자여야 합니다.");
+						}
+					}
+					// 글 작성시 패스워드 입력
+					String password="";
+					while(true) {
+						System.out.print("패스워드 입력 : ");
+						password=scanner.nextLine().trim();
+						
+						int length=password.length();
+						
+						if(password.isBlank()) {
+							System.out.println("⚠️패스워드를 입력해주세요.");
+						}else if(length<4) {
+							System.out.println("⚠️ 패스워드는 최소 4자 이상 입력하셔야 합니다.");
+						}else if(length>10) {
+							System.out.println("⚠️ 패스워드는 최대 10자까지 입력할 수 있습니다.");
+						}else { // 유효한 패스워드일 경우
+							break;
 						}
 					}
 					
-					boardService.registerBoard(title, content, writer);
+					// 글 작성시 패스워드 확인
+					String password2="";
+					while(true) {
+						System.out.print("패스워드 확인 : ");
+						password2=scanner.nextLine().trim();
+						
+						if(password2.equals(password)) {
+							break;
+						}
+						
+						System.out.println("패스워드를 다시 입력해주세요");
+						System.out.print("패스워드 입력 : ");
+						password=scanner.nextLine().trim();
+					}
+					
+					boardService.registerBoard(title, content, writer,password);
 					break;
 					
 				case "2":

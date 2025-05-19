@@ -9,7 +9,9 @@ import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BoardService {
 	private List<Board>list=new ArrayList<Board>();
@@ -23,6 +25,15 @@ public class BoardService {
 		System.out.println("\n게시글을 작성완료했습니다 😊");
 	}
 	
+	// 닉네임 중복검사를 위한 기존에 저장된 닉네임 세트
+	public Set<String> inputNickname() {
+		Set<String>nickNameSet=new HashSet<String>();
+		for(Board board:list) {
+			nickNameSet.add(board.getWriter());
+		}
+		return nickNameSet;
+	}
+	
 	// 목록 보기
 	public void showList() {
 	    if (list.isEmpty()) {
@@ -32,7 +43,7 @@ public class BoardService {
 
 	    System.out.println("[게시글 목록]");
 	    System.out.printf("%-6s | %-20s | %-30s | %-10s | %-20s\n",
-	                      "글번호", "제목", "내용", "닉네임", "일시");
+	                      "글번호", "제목", "내용", "닉네임", "날짜");
 	    System.out.println("--------------------------------------------------------------------------------------------");
 	    
 	    for (Board board : list) {
@@ -70,7 +81,7 @@ public class BoardService {
 			return;
 		}
 		System.out.println("[게시글 상세보기]");
-		System.out.println("번호 : "+board.getBno());
+		System.out.println("글번호 : "+board.getBno());
 		System.out.println("제목 : "+board.getTitle());
 		System.out.println("내용 : "+board.getContent());
 		System.out.println("닉네임 : "+board.getWriter());

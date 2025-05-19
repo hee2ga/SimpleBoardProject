@@ -1,6 +1,8 @@
 package sec01.exam01;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class BoardServiceExample {
 	public static void main(String[] args) {
@@ -47,17 +49,25 @@ public class BoardServiceExample {
 					}
 					
 					String writer="";
-					while(writer.isBlank() || !writer.matches("^[가-힣a-zA-Z0-9]{2,10}$")) { // 닉네임 유효성검사
-						System.out.print("닉네임 : ");
-						writer=scanner.nextLine().trim(); 
-						
-						if(writer.isBlank()) { // 닉네임 공백검사
-							System.out.println("⚠️닉네임을 입력해주세요.");
-						}
-						if(!writer.matches("^[가-힣a-zA-Z0-9]{2,10}$")) { // 한글 영어 숫자 허용(2~10자)
-							System.out.println("⚠️닉네임은 한글, 영어, 숫자만 사용하며 2~10자여야 합니다.");
-						}
-					}
+					Set<String> nicknameSet=boardService.inputNickname(); // 저장된 닉네임 세트
+					
+					 while (true) {
+				            System.out.print("닉네임 : ");
+				            writer = scanner.nextLine().trim();
+
+				            if (writer.isBlank()) { // 닉네임 공백검사
+				                System.out.println("⚠️ 닉네임을 입력해주세요.");
+				            } else if (!writer.matches("^[가-힣a-zA-Z0-9]{2,10}$")) { // 닉네임 유효성 검사
+				                System.out.println("⚠️ 닉네임은 한글, 영어, 숫자만 사용하며 2~10자여야 합니다.");
+				            } else if (nicknameSet.contains(writer)) { // 닉네임 중복검사
+				                System.out.println("⚠️ 이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
+				            } else {
+				                break;
+				            }
+				        }
+
+				        System.out.println("사용 가능한 닉네임입니다: " + writer);
+				    
 					// 글 작성시 패스워드 입력
 					String password="";
 					while(true) {

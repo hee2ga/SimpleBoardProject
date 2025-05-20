@@ -148,10 +148,56 @@ public class BoardServiceExample {
 					
 					
 				case "5": // 삭제하기
-					System.out.print("삭제하실 글 번호를 입력해주세요.");
-					int deleteBno=Integer.parseInt(scanner.nextLine());
-					boardService.deleteBoard(deleteBno);
-					break;
+					while(true) {
+						System.out.print("삭제하실 글 번호를 입력해주세요.");
+						int deleteBno=Integer.parseInt(scanner.nextLine());
+						String error1=checkField.checkBno(deleteBno);
+						if(error1!=null) {
+							System.out.println(error1);
+							continue;
+						}
+						
+						while(true) { 
+							System.out.print("닉네임을 입력해주세요");
+							String updateWriter=scanner.nextLine();
+							String error2=checkField.checkNickname(deleteBno,updateWriter);
+							if(error2!=null) {
+								System.out.println(error2);
+								continue;
+							}
+							break;
+						}
+						
+						while(true) {
+							System.out.print("비밀번호를 입력해주세요.");
+							String updatePassword=scanner.nextLine();
+							String error3=checkField.checkPassAndNickname(deleteBno, updatePassword);
+							if(error3!=null) {
+								System.out.println(error3);
+								continue;
+							}
+							break;
+						}
+					
+						while(true) { 
+							 System.out.print("삭제하시겠습니까?(Y/N): ");
+					            String answer = scanner.nextLine().trim();
+
+					            if (answer.equalsIgnoreCase("Y")) {
+					                boardService.deleteBoard(deleteBno);
+					                break; // 삭제 후 내부 while 탈출
+					            } else if (answer.equalsIgnoreCase("N")) {
+					                System.out.println("삭제요청이 취소되었습니다.");
+					                break;
+					            } else {
+					                System.out.println("⚠️ Y 또는 N만 입력해주세요.");
+					            }
+					        }
+
+					        break; // 외부 while 탈출
+					    }
+					    break;
+					
 				case "6": // 저장하기
 					boardService.saveFile();
 					break;

@@ -18,6 +18,11 @@ public class BoardService {
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private int nextId = 1;
 	
+	public List<Board> getBoardList() {
+	    return list;
+	}
+	
+	
 	// 글 작성하기
 	public void registerBoard(String title, String content,String writer,String password) {
 		Date now=new Date();

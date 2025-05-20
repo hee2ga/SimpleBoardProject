@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 public class CheckField {
-	private List<Board>list=new ArrayList<Board>();
 	private BoardService boardService;
 	
 	public CheckField(BoardService boardService) {
@@ -17,7 +16,7 @@ public class CheckField {
     }
 	
 	public Set<String> getNicknames() {
-        return boardService.inputNickname(); // 필요한 곳에서 호출
+        return boardService.inputNickname();
     }
 	
 	
@@ -84,21 +83,23 @@ public class CheckField {
 		return null;
 	}
 	
-	// 글번호에 해당하는 닉네임 존재하는지 
-	public String checkNickname(int bno,String writer) {
-		
-		for(Board board:list) {
-			if(board.getBno()==bno) {
-				if(!board.getWriter().equals(writer)) {
-					return "⚠️ 접근 권한이 없습니다.";
-				}
-			}
-		}
-		return null;
+	public String checkNickname(int bno, String writer) {
+		List<Board> list = boardService.getBoardList();
+	    for (Board board : list) {
+	        if (board.getBno() == bno) {
+	            if (!board.getWriter().equals(writer)) {
+	                return "⚠️ 닉네임이 일치하지 않습니다.";
+	            } else {
+	                return null;
+	            }
+	        }
+	    }
+	    return "⚠️ 글번호가 존재하지 않습니다.";
 	}
 	
 	// 닉네임과 패스워드 일치검사(닉네임 검사 후 실행)
 	public String checkPassAndNickname(int bno,String password) {
+		List<Board> list = boardService.getBoardList();
 		for(Board board:list) {
 			if(board.getBno()==bno) {
 				if(!board.getPassword().equals(password)){

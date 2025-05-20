@@ -49,7 +49,7 @@ public class BoardService {
 	    for (Board board : list) {
 	        System.out.printf("%-6d | %-20s | %-30s | %-10s | %-20s\n",
 	                          board.getBno(),
-	                          cutString(board.getTitle(), 6),
+	                          cutString(board.getTitle(), 10),
 	                          cutString(board.getContent(), 10),
 	                          board.getWriter(),
 	                          board.getDate());
@@ -87,22 +87,19 @@ public class BoardService {
 		System.out.println("닉네임 : "+board.getWriter());
 		System.out.println("날짜 : "+board.getDate());
 	}
-	// 닉네임 확인 -> 등록되지 않은 닉네임입니다.
-	
-	
-	// 비밀번호 확인 -> 올바르지 않은 비밀번호 입니다.
 	
 	
 	// 수정하기
-	public void updateBoard(int bno, String writer, String password,String newTitle, String newContent) {
+	public void updateBoard(int bno,String newTitle, String newContent) {
+		
+		Date now=new Date();
+		
 		Board board=getBoardBybno(bno);
-		if(board==null) {
-			System.out.println("해당 번호의 게시글이 없습니다.");
-			return;
-		}else if(board.getWriter().equals(writer))
 		board.setTitle(newTitle);
 		board.setContent(newContent);
+		board.setDate(sdf.format(now));
 		System.out.println("수정이 완료되었습니다.");
+		
 	}
 	
 	// 삭제하기

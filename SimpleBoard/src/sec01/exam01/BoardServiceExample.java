@@ -10,7 +10,8 @@ public class BoardServiceExample {
 		BoardService boardService=new BoardService();
 		boardService.loadFromFile();
 		boolean run=true;
-		CheckField checkField=new CheckField();
+		CheckField checkField = new CheckField(boardService);
+
 		
 		while(run) {
 			System.out.println("--------------------------------------------------------------------------------------------");
@@ -21,7 +22,7 @@ public class BoardServiceExample {
 			String selectNo=scanner.nextLine();
 			
 			switch(selectNo) {
-				case "1":
+				case "1": // 글작성
 					System.out.println("[글작성]");
 					String title="";
 					while(true) {
@@ -88,37 +89,73 @@ public class BoardServiceExample {
 					boardService.registerBoard(title, content, writer,password1);
 					break;
 					
-				case "2":
+				case "2": // 목록보기
 					boardService.showList();
 					break;
 					
-				case "3" :
+				case "3" : // 상세보기
 					System.out.print("상세보기 하실 글 번호를 입력해주세요.");
 					int showbno=Integer.parseInt(scanner.nextLine());
 					boardService.showBoard(showbno);
 					break;
-				case "4":
-					System.out.print("수정하실 글 번호를 입력해주세요.");
-					int updateBno=Integer.parseInt(scanner.nextLine());
-					System.out.print("닉네임을 입력해주세요");
-					String updateWriter=scanner.nextLine();
-					System.out.print("비밀번호를 입력해주세요.");
-					String updatePassword=scanner.nextLine();
-					System.out.print("수정하실 제목을 입력해주세요.");
-					String updateTitle=scanner.nextLine();
-					System.out.println("수정하실 내용을 입력해주세요.");
-					String updateContent=scanner.nextLine();
-					boardService.updateBoard(updateBno,updateWriter,updatePassword, updateTitle, updateContent);
+				case "4": // 수정하기
+					
+					while(true) {
+						
+						System.out.print("수정하실 글 번호를 입력해주세요.");
+						int updateBno=Integer.parseInt(scanner.nextLine());
+						String error1=checkField.checkBno(updateBno);
+						if(error1!=null) {
+							System.out.println(error1);
+							continue;
+						}
+						System.out.print("닉네임을 입력해주세요");
+						String updateWriter=scanner.nextLine();
+						String error2=checkField.checkNickname(updateBno,updateWriter);
+						if(error2!=null) {
+							System.out.println(error2);
+							continue;
+						}
+						System.out.print("비밀번호를 입력해주세요.");
+						String updatePassword=scanner.nextLine();
+						String error3=checkField.checkPassAndNickname(updateBno, updatePassword);
+						if(error3!=null) {
+							System.out.println(error3);
+							continue;
+						}
+						
+						System.out.print("수정하실 제목을 입력해주세요.");
+						String updateTitle=scanner.nextLine();
+						String error4=checkField.checkTitle(updateTitle);
+						if(error4!=null) {
+							System.out.println(error4);
+							continue;
+						}
+						System.out.println("수정하실 내용을 입력해주세요.");
+						String updateContent=scanner.nextLine();
+						String error5=checkField.checkContent(updateContent);
+						if(error5!=null) {
+							System.out.println(error5);
+							continue;
+						}
+						
+						boardService.updateBoard(updateBno,updateTitle, updateContent);
+						break;
+						
+					}
 					break;
-				case "5":
+					
+					
+					
+				case "5": // 삭제하기
 					System.out.print("삭제하실 글 번호를 입력해주세요.");
 					int deleteBno=Integer.parseInt(scanner.nextLine());
 					boardService.deleteBoard(deleteBno);
 					break;
-				case "6":
+				case "6": // 저장하기
 					boardService.saveFile();
 					break;
-				case "7":
+				case "7": // 종료하기
 					boardService.saveFile();
 					System.out.println("종료되었습니다.");
 					run=false;

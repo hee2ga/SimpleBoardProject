@@ -123,15 +123,21 @@ public class BoardServiceExample {
 							System.out.println(error3);
 							continue;
 						}
+						System.out.println("--------------------------------------------------------------------------------------------");
+						System.out.println("[수정하기]");
+						String originTitle=boardService.loadOriginTitle(updateBno);
+						System.out.println("제목  : "+originTitle);
 						
-						System.out.print("수정하실 제목을 입력해주세요.");
+						System.out.print("수정할 제목 : ");
 						String updateTitle=scanner.nextLine();
 						String error4=checkField.checkTitle(updateTitle);
 						if(error4!=null) {
 							System.out.println(error4);
 							continue;
 						}
-						System.out.println("수정하실 내용을 입력해주세요.");
+						String originContent=boardService.loadOriginContent(updateBno);
+						System.out.println("내용 : "+originContent);
+						System.out.print("수정할 내용 : ");
 						String updateContent=scanner.nextLine();
 						String error5=checkField.checkContent(updateContent);
 						if(error5!=null) {

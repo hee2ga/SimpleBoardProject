@@ -107,6 +107,24 @@ public class BoardService {
 		
 	}
 	
+	// 수정시 기존 제목 불러오기
+	public String loadOriginTitle(int bno) {
+		Board board=getBoardBybno(bno);
+		if(board==null) {
+			return "제목불러오기 오류 발생";
+		}
+		return board.getTitle();
+	}
+	
+	// 수정시 기존 내용 불러오기
+		public String loadOriginContent(int bno) {
+			Board board=getBoardBybno(bno);
+			if(board==null) {
+				return "내용불러오기 오류 발생";
+			}
+			return board.getContent();
+		}
+	
 	// 삭제하기
 	public void deleteBoard(int bno) {
 		Board board=getBoardBybno(bno);

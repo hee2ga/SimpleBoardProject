@@ -116,7 +116,7 @@ public class CheckField {
 	// 글번호 존재하는지
 	public String checkBno(int bno) {
 		Board board=boardService.getBoardBybno(bno);
-		System.out.println(board);
+	
 		if(board==null) {
 			return "⚠️ 해당번호의 게시물이 없습니다.";
 		}

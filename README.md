@@ -14,12 +14,13 @@
 ---
 
 ## 📦 프로젝트 구조
+```
 SimpleBoardProject/
-├── Board.java // 게시글 정보를 담는 데이터 클래스 (글번호, 제목, 내용, 작성자, 작성일)
-├── BoardService.java // 게시글 추가, 조회, 수정, 삭제, 저 등의 핵심 로직 처리
-├── CheckField.java // 입력값(번호, 제목, 닉네임 등) 유효성 검사
-├── BoardServiceExample.java // main() 메서드가 포함된 실행용 클래스
-
+├── Board.java (게시글 정보를 담는 데이터 클래스: 글번호, 제목, 내용, 작성자, 작성일)
+├── BoardService.java (게시글 추가, 조회, 수정, 삭제 등의 핵심 로직 처리)
+├── CheckField.java (입력값 유효성 검사: 번호, 제목, 닉네임 등)
+├── BoardServiceExample.java (main() 메서드가 포함된 실행용 클래스)
+```
 ---
 
 ## ✅ 주요 기능

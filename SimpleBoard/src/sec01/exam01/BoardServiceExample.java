@@ -132,19 +132,28 @@ public class BoardServiceExample {
 							System.out.println(error1);
 							continue;
 						}
-						System.out.print("닉네임을 입력해주세요");
-						String updateWriter=scanner.nextLine();
-						String error2=checkField.checkNickname(updateBno,updateWriter);
-						if(error2!=null) {
-							System.out.println(error2);
-							continue;
+						
+						while(true) {
+							System.out.print("닉네임을 입력해주세요");
+							String updateWriter=scanner.nextLine();
+							String error2=checkField.checkNickname(updateBno,updateWriter);
+							if(error2!=null) {
+								System.out.println(error2);
+								continue;
+							}else {
+								break;
+							}
 						}
-						System.out.print("비밀번호를 입력해주세요.");
-						String updatePassword=scanner.nextLine();
-						String error3=checkField.checkPassAndNickname(updateBno, updatePassword);
-						if(error3!=null) {
-							System.out.println(error3);
-							continue;
+						while(true) {
+							System.out.print("비밀번호를 입력해주세요.");
+							String updatePassword=scanner.nextLine();
+							String error3=checkField.checkPassAndNickname(updateBno, updatePassword);
+							if(error3!=null) {
+								System.out.println(error3);
+								continue;
+							}else {
+								break;
+							}
 						}
 						System.out.println("--------------------------------------------------------------------------------------------");
 						System.out.println("[수정하기]");

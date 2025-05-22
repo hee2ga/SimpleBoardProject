@@ -85,6 +85,7 @@ public class BoardService {
 			System.out.println("해당 번호의 게시글이 없습니다.");
 			return;
 		}
+		
 		System.out.println("[게시글 상세보기]");
 		System.out.println("글번호 : "+board.getBno());
 		System.out.println("제목 : "+board.getTitle());

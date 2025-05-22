@@ -94,16 +94,39 @@ public class BoardServiceExample {
 					break;
 					
 				case "3" : // 상세보기
-					System.out.print("상세보기 하실 글 번호를 입력해주세요.");
-					int showbno=Integer.parseInt(scanner.nextLine());
-					boardService.showBoard(showbno);
+					
+					int showBno=0;
+					boolean valid=false;
+					
+					while(!valid) {
+						System.out.print("상세보기 하실 글 번호를 입력해주세요.");
+						String strBno=scanner.nextLine();
+						try {
+							showBno=Integer.parseInt(strBno);
+							boardService.showBoard(showBno);
+							valid=true;
+						}catch(NumberFormatException e) {
+							System.out.println("⚠️ 숫자만 입력해주세요.");
+						}
+					}
+					
 					break;
 				case "4": // 수정하기
 					
 					while(true) {
 						
 						System.out.print("수정하실 글 번호를 입력해주세요.");
-						int updateBno=Integer.parseInt(scanner.nextLine());
+						
+						String strBno=scanner.nextLine();
+						int updateBno;
+						
+						try {
+							updateBno=Integer.parseInt(strBno);
+						}catch(NumberFormatException e) {
+							System.out.println("⚠️ 숫자만 입력해주세요.");
+							continue;
+						}
+						
 						String error1=checkField.checkBno(updateBno);
 						if(error1!=null) {
 							System.out.println(error1);
@@ -125,24 +148,38 @@ public class BoardServiceExample {
 						}
 						System.out.println("--------------------------------------------------------------------------------------------");
 						System.out.println("[수정하기]");
+						
 						String originTitle=boardService.loadOriginTitle(updateBno);
 						System.out.println("제목  : "+originTitle);
+						String updateTitle;
 						
-						System.out.print("수정할 제목 : ");
-						String updateTitle=scanner.nextLine();
-						String error4=checkField.checkTitle(updateTitle);
-						if(error4!=null) {
-							System.out.println(error4);
-							continue;
+						while(true) {
+							System.out.print("수정할 제목 : ");
+							updateTitle=scanner.nextLine();
+							String error4=checkField.checkTitle(updateTitle);
+							if(error4!=null) {
+								System.out.println(error4);
+								continue;
+							}else {
+								break;
+							}
+						
 						}
+						
 						String originContent=boardService.loadOriginContent(updateBno);
 						System.out.println("내용 : "+originContent);
-						System.out.print("수정할 내용 : ");
-						String updateContent=scanner.nextLine();
-						String error5=checkField.checkContent(updateContent);
-						if(error5!=null) {
-							System.out.println(error5);
-							continue;
+						String updateContent;
+						
+						while(true) {
+							System.out.print("수정할 내용 : ");
+							updateContent=scanner.nextLine();
+							String error5=checkField.checkContent(updateContent);
+							if(error5!=null) {
+								System.out.println(error5);
+								continue;
+							}else {
+								break;
+							}
 						}
 						
 						boardService.updateBoard(updateBno,updateTitle, updateContent);
@@ -156,7 +193,15 @@ public class BoardServiceExample {
 				case "5": // 삭제하기
 					while(true) {
 						System.out.print("삭제하실 글 번호를 입력해주세요.");
-						int deleteBno=Integer.parseInt(scanner.nextLine());
+						String strBno=scanner.nextLine();
+						int deleteBno;
+						try {
+							deleteBno=Integer.parseInt(strBno);
+							
+						}catch(NumberFormatException e) {
+							System.out.println("⚠️ 숫자만 입력해주세요.");
+							continue;
+						}
 						String error1=checkField.checkBno(deleteBno);
 						if(error1!=null) {
 							System.out.println(error1);
@@ -212,6 +257,9 @@ public class BoardServiceExample {
 					System.out.println("종료되었습니다.");
 					run=false;
 					break;
+				
+				default:
+					System.out.println("다시 선택해주세요.");
 			}
 		}
 	}
